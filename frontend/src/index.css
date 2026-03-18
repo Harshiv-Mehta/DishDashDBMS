@@ -1,0 +1,190 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap');
+
+:root {
+  --primary: #E67E22;
+  --primary-dark: #D35400;
+  --secondary: #1E272E;
+  --accent: #E74C3C;
+  --bg-warm: #FEF9F3;
+  --text-main: #2D3436;
+  --text-muted: #636E72;
+  --white: #FFFFFF;
+
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.04);
+  --shadow-md: 0 8px 16px rgba(0, 0, 0, 0.06);
+  --shadow-lg: 0 12px 32px rgba(0, 0, 0, 0.08);
+
+  --radius-sm: 6px;
+  --radius-md: 16px;
+  --radius-lg: 24px;
+
+  --glass: rgba(255, 255, 255, 0.82);
+  --glass-border: rgba(255, 255, 255, 0.4);
+}
+
+/* ── Dark Mode ── */
+body.dark-mode {
+  --bg-warm: #1a1a2e;
+  --text-main: #e0e0e0;
+  --text-muted: #a0a0a0;
+  --secondary: #e0e0e0;
+  --white: #16213e;
+  --glass: rgba(22, 33, 62, 0.85);
+  --glass-border: rgba(255, 255, 255, 0.08);
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.2);
+  --shadow-md: 0 8px 16px rgba(0, 0, 0, 0.3);
+  --shadow-lg: 0 12px 32px rgba(0, 0, 0, 0.4);
+}
+
+body.dark-mode .compare-card {
+  background: #16213e;
+  border-color: rgba(255, 255, 255, 0.05);
+}
+
+body.dark-mode .platform-row {
+  background: #1a1a2e;
+  border-color: rgba(255, 255, 255, 0.06);
+}
+
+body.dark-mode .platform-row.highlight {
+  background: rgba(230, 126, 34, 0.1);
+}
+
+body.dark-mode .platform-row.highlight::before {
+  background: #16213e;
+}
+
+body.dark-mode .navbar {
+  background: rgba(26, 26, 46, 0.85);
+  border-color: rgba(255, 255, 255, 0.04);
+}
+
+body.dark-mode .search-box {
+  background: #16213e !important;
+}
+
+body.dark-mode .search-box input {
+  color: #e0e0e0;
+}
+
+body.dark-mode .footer {
+  background: #0f0f23;
+}
+
+body.dark-mode .category-tab {
+  background: #16213e;
+  border-color: rgba(255, 255, 255, 0.08);
+  color: #a0a0a0;
+}
+
+body.dark-mode .category-tab.active {
+  background: var(--primary);
+  color: white;
+}
+
+body.dark-mode .sort-select {
+  background: #16213e;
+  color: #e0e0e0;
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+body.dark-mode .skeleton-card {
+  background: #16213e;
+}
+
+body.dark-mode .skeleton-image,
+body.dark-mode .skeleton-title,
+body.dark-mode .skeleton-text,
+body.dark-mode .skeleton-row {
+  background: #1a1a2e;
+}
+
+body.dark-mode .chatbot-window {
+  background: #16213e !important;
+}
+
+body.dark-mode .chatbot-input input {
+  background: #1a1a2e;
+  color: #e0e0e0;
+}
+
+body.dark-mode .btn-login {
+  background: var(--primary);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Outfit', sans-serif;
+  background-color: var(--bg-warm);
+  color: var(--text-main);
+  line-height: 1.6;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  transition: background-color 0.4s ease, color 0.4s ease;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-family: 'Outfit', sans-serif;
+  font-weight: 700;
+  color: var(--secondary);
+  letter-spacing: -0.02em;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+button {
+  cursor: pointer;
+  border: none;
+  outline: none;
+  font-family: 'Outfit', sans-serif;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 2.5rem;
+}
+
+/* Glassmorphism utility */
+.glass-card {
+  background: var(--glass);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-md);
+}
+
+/* Base button styles */
+.btn-primary {
+  background-color: var(--primary);
+  color: white;
+  padding: 1rem 2rem;
+  border-radius: var(--radius-sm);
+  font-weight: 600;
+  font-size: 1rem;
+  letter-spacing: 0.02em;
+}
+
+.btn-primary:hover {
+  background-color: var(--primary-dark);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+section {
+  padding: 5rem 0;
+}
