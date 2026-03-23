@@ -1,1 +1,1 @@
-export const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'https://dishdashappdbms-1.onrender.com';
+export const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || (window.location.hostname === 'localhost' ? 'http://localhost:5006' : 'https://dishdashappdbms-1.onrender.com');

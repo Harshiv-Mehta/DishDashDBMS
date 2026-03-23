@@ -2,22 +2,32 @@
   min-height: 100vh;
   display: flex;
   flex-direction: column;
+  position: relative;
+}
+
+/* Subtle Indian Motif Pattern - Mandala inspired */
+.dishdash-app::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M30 60c-2.2 0-4-1.8-4-4s1.8-4 4-4 4 1.8 4 4-1.8 4-4 4zm0-56c-2.2 0-4-1.8-4-4s1.8-4 4-4 4 1.8 4 4-1.8 4-4 4zm26 30c0 2.2-1.8 4-4 4s-4-1.8-4-4 1.8-4 4-4 4 1.8 4 4zM4 30c0 2.2-1.8 4-4 4s-4-1.8-4-4 1.8-4 4-4 4 1.8 4 4zm11.3 11.3c-1.5 1.5-4 1.5-5.6 0s-1.5-4 0-5.6 4-1.5 5.6 0 1.5 4 0 5.6zm29.4-29.4c-1.5 1.5-4 1.5-5.6 0s-1.5-4 0-5.6 4-1.5 5.6 0 1.5 4 0 5.6zM15.3 15.3c1.5-1.5 4-1.5 5.6 0s1.5 4 0 5.6-4 1.5-5.6 0-1.5-4 0-5.6zm29.4 29.4c1.5-1.5 4-1.5 5.6 0s1.5 4 0 5.6-4 1.5-5.6 0-1.5-4 0-5.6z' fill='%23FF3366' fill-opacity='0.04' fill-rule='evenodd'/%3E%3C/svg%3E");
 }
 
 .page-content {
   flex: 1;
-  animation: page-fade-in 0.4s ease;
+  animation: page-fade-in 0.5s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 @keyframes page-fade-in {
   from {
     opacity: 0;
-    transform: translateY(10px);
+    transform: translateY(20px) scale(0.98);
   }
-
   to {
     opacity: 1;
-    transform: translateY(0);
+    transform: translateY(0) scale(1);
   }
 }
 
@@ -29,12 +39,22 @@ main {
 .section-header {
   margin-bottom: 2.5rem;
   text-align: center;
+  animation: section-arrive 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes section-arrive {
+  from { opacity: 0; transform: translateY(30px); }
+  to   { opacity: 1; transform: translateY(0); }
 }
 
 .section-header h2 {
   font-size: 2.8rem;
   margin-bottom: 0.6rem;
   letter-spacing: -1.5px;
+  background: linear-gradient(135deg, var(--secondary) 20%, var(--primary) 60%, var(--accent));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
 .section-header p {
@@ -76,10 +96,11 @@ main {
 }
 
 .category-tab.active {
-  background: var(--primary);
+  background: linear-gradient(135deg, var(--primary), #d35400);
   color: white;
-  border-color: var(--primary);
-  box-shadow: 0 4px 12px rgba(230, 126, 34, 0.3);
+  border-color: transparent;
+  box-shadow: 0 4px 16px rgba(230, 126, 34, 0.4);
+  transform: translateY(-2px);
 }
 
 /* ── Sort Bar ── */
@@ -141,6 +162,32 @@ main {
   gap: 2.5rem;
 }
 
+/* Staggered card entrance animations */
+.dish-grid > * {
+  animation: card-enter 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.dish-grid > *:nth-child(1)  { animation-delay: 0.05s; }
+.dish-grid > *:nth-child(2)  { animation-delay: 0.10s; }
+.dish-grid > *:nth-child(3)  { animation-delay: 0.15s; }
+.dish-grid > *:nth-child(4)  { animation-delay: 0.20s; }
+.dish-grid > *:nth-child(5)  { animation-delay: 0.25s; }
+.dish-grid > *:nth-child(6)  { animation-delay: 0.30s; }
+.dish-grid > *:nth-child(7)  { animation-delay: 0.35s; }
+.dish-grid > *:nth-child(8)  { animation-delay: 0.40s; }
+.dish-grid > *:nth-child(9)  { animation-delay: 0.45s; }
+
+@keyframes card-enter {
+  from {
+    opacity: 0;
+    transform: translateY(40px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
 /* ── Skeleton Loading ── */
 .skeleton-card {
   background: white;
@@ -193,8 +240,8 @@ main {
   left: -100%;
   width: 100%;
   height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.6), transparent);
-  animation: shimmer 1.5s infinite;
+  background: linear-gradient(90deg, transparent, rgba(255, 51, 102, 0.05), rgba(255, 255, 255, 0.8), rgba(0, 198, 255, 0.05), transparent);
+  animation: shimmer 2s ease-in-out infinite;
 }
 
 @keyframes shimmer {
@@ -223,13 +270,33 @@ main {
 /* ── Footer ── */
 .footer {
   padding: 3.5rem 0;
-  background: var(--secondary);
-  color: white;
+  background: var(--white);
+  color: var(--secondary);
   text-align: center;
+  position: relative;
+  overflow: hidden;
+  border-top: 1px solid rgba(0, 0, 51, 0.05);
+}
+
+.footer::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, var(--primary), var(--accent), var(--primary));
+  background-size: 200% 100%;
+  animation: footer-gradient 4s ease infinite;
+}
+
+@keyframes footer-gradient {
+  0%, 100% { background-position: 0% 50%; }
+  50%      { background-position: 100% 50%; }
 }
 
 .footer p {
-  opacity: 0.5;
+  opacity: 0.7;
   font-size: 0.9rem;
   font-weight: 500;
   letter-spacing: 0.05em;

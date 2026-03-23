@@ -1,115 +1,112 @@
 @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap');
 
 :root {
-  --primary: #E67E22;
-  --primary-dark: #D35400;
-  --secondary: #1E272E;
-  --accent: #E74C3C;
-  --bg-warm: #FEF9F3;
-  --text-main: #2D3436;
-  --text-muted: #636E72;
+  /* Vibrant Light Theme - Travel-Genie Inspired */
+  --primary: #FF3366; /* Vibrant Magenta */
+  --primary-dark: #FF0040;
+  --secondary: #000033; /* Deep navy blue for high contrast text */
+  --accent: #00C6FF; /* Bright Sky Blue */
+  --bg-warm: #F8F9FE; /* Pearl White with a touch of blue */
+  --text-main: #1E293B;
+  --text-muted: #64748B;
   --white: #FFFFFF;
 
-  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.04);
-  --shadow-md: 0 8px 16px rgba(0, 0, 0, 0.06);
-  --shadow-lg: 0 12px 32px rgba(0, 0, 0, 0.08);
+  --shadow-sm: 0 4px 12px rgba(255, 51, 102, 0.08); /* Hint of magenta shadow */
+  --shadow-md: 0 10px 24px rgba(0, 198, 255, 0.12); /* Hint of cyan shadow */
+  --shadow-lg: 0 16px 40px rgba(255, 51, 102, 0.2);
 
-  --radius-sm: 6px;
-  --radius-md: 16px;
-  --radius-lg: 24px;
+  --radius-sm: 8px;
+  --radius-md: 20px;
+  --radius-lg: 32px;
 
-  --glass: rgba(255, 255, 255, 0.82);
-  --glass-border: rgba(255, 255, 255, 0.4);
+  --glass: rgba(255, 255, 255, 0.85);
+  --glass-border: rgba(255, 255, 255, 0.6);
 }
 
-/* ── Dark Mode ── */
+/* User specifically requested NO dark mode, so we override dark-mode classes with the vibrant theme or just remove dark mode overrides */
 body.dark-mode {
-  --bg-warm: #1a1a2e;
-  --text-main: #e0e0e0;
-  --text-muted: #a0a0a0;
-  --secondary: #e0e0e0;
-  --white: #16213e;
-  --glass: rgba(22, 33, 62, 0.85);
-  --glass-border: rgba(255, 255, 255, 0.08);
-  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.2);
-  --shadow-md: 0 8px 16px rgba(0, 0, 0, 0.3);
-  --shadow-lg: 0 12px 32px rgba(0, 0, 0, 0.4);
+  --bg-warm: #F8F9FE;
+  --text-main: #1E293B;
+  --text-muted: #64748B;
+  --secondary: #000033;
+  --white: #FFFFFF;
+  --glass: rgba(255, 255, 255, 0.85);
+  --glass-border: rgba(255, 255, 255, 0.6);
 }
 
 body.dark-mode .compare-card {
-  background: #16213e;
-  border-color: rgba(255, 255, 255, 0.05);
+  background: white;
+  border-color: rgba(255, 51, 102, 0.1);
 }
 
 body.dark-mode .platform-row {
-  background: #1a1a2e;
-  border-color: rgba(255, 255, 255, 0.06);
+  background: #FDFDFD;
+  border-color: #F0F0F0;
 }
 
 body.dark-mode .platform-row.highlight {
-  background: rgba(230, 126, 34, 0.1);
+  background: rgba(255, 51, 102, 0.05);
 }
 
 body.dark-mode .platform-row.highlight::before {
-  background: #16213e;
+  background: white;
+  color: var(--primary);
 }
 
 body.dark-mode .navbar {
-  background: rgba(26, 26, 46, 0.85);
-  border-color: rgba(255, 255, 255, 0.04);
+  background: rgba(248, 249, 254, 0.85);
+  border-bottom: 1px solid rgba(255, 51, 102, 0.1);
 }
 
 body.dark-mode .search-box {
-  background: #16213e !important;
+  background: white !important;
 }
 
 body.dark-mode .search-box input {
-  color: #e0e0e0;
+  color: var(--text-main);
 }
 
 body.dark-mode .footer {
-  background: #0f0f23;
+  background: linear-gradient(135deg, #000033 0%, #1e293b 100%);
 }
 
 body.dark-mode .category-tab {
-  background: #16213e;
-  border-color: rgba(255, 255, 255, 0.08);
-  color: #a0a0a0;
+  background: white;
+  color: var(--text-muted);
 }
 
 body.dark-mode .category-tab.active {
-  background: var(--primary);
+  background: linear-gradient(135deg, var(--primary), var(--accent));
   color: white;
 }
 
 body.dark-mode .sort-select {
-  background: #16213e;
-  color: #e0e0e0;
-  border-color: rgba(255, 255, 255, 0.1);
+  background: white;
+  color: var(--text-main);
 }
 
 body.dark-mode .skeleton-card {
-  background: #16213e;
+  background: white;
 }
 
 body.dark-mode .skeleton-image,
 body.dark-mode .skeleton-title,
 body.dark-mode .skeleton-text,
 body.dark-mode .skeleton-row {
-  background: #1a1a2e;
+  background: #eee;
 }
 
 body.dark-mode .chatbot-window {
-  background: #16213e !important;
+  background: white !important;
 }
 
 body.dark-mode .chatbot-input input {
-  background: #1a1a2e;
-  color: #e0e0e0;
+  background: #F8F9FE;
+  color: var(--text-main);
 }
 
 body.dark-mode .btn-login {
-  background: var(--primary);
+  background: linear-gradient(135deg, var(--primary), var(--accent));
 }
 
 * {
@@ -126,6 +123,43 @@ body {
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
   transition: background-color 0.4s ease, color 0.4s ease;
+  position: relative;
+}
+
+/* Animated floating gradient orbs */
+body::before,
+body::after {
+  content: '';
+  position: fixed;
+  border-radius: 50%;
+  filter: blur(100px);
+  opacity: 0.12;
+  z-index: -1;
+  pointer-events: none;
+  animation: float-orb 18s ease-in-out infinite;
+}
+
+body::before {
+  width: 500px;
+  height: 500px;
+  background: var(--primary); /* Vibrant Magenta */
+  top: -100px;
+  right: -100px;
+}
+
+body::after {
+  width: 400px;
+  height: 400px;
+  background: var(--accent); /* Bright Sky Blue */
+  bottom: -50px;
+  left: -100px;
+  animation-delay: -9s;
+}
+
+@keyframes float-orb {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33%      { transform: translate(30px, -50px) scale(1.05); }
+  66%      { transform: translate(-20px, 30px) scale(0.95); }
 }
 
 h1,
@@ -166,6 +200,12 @@ button {
   border: 1px solid var(--glass-border);
   border-radius: var(--radius-md);
   box-shadow: var(--shadow-md);
+  transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+}
+
+.glass-card:hover {
+  box-shadow: var(--shadow-lg);
+  transform: translateY(-4px);
 }
 
 /* Base button styles */

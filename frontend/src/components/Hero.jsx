@@ -4,12 +4,19 @@ import { API_BASE_URL } from '../config';
 
 const Hero = ({ onSearch }) => {
     const [query, setQuery] = useState('');
-    const [stats, setStats] = useState({ totalDishes: 30, totalPlatforms: 5, maxDiscount: 30 });
+    const [stats, setStats] = useState({ totalProducts: 120, platforms: 4, savings: '30%' });
 
     useEffect(() => {
         fetch(`${API_BASE_URL}/api/stats`)
             .then(res => res.json())
-            .then(data => setStats(data))
+            .then(data => {
+                // Robust key mapping for both old and new backend responses
+                setStats({
+                    totalProducts: data.totalProducts || data.totalDishes || 120,
+                    platforms: data.platforms || data.totalPlatforms || 4,
+                    savings: data.savings || (data.maxDiscount ? `${data.maxDiscount}%` : '30%')
+                });
+            })
             .catch(() => { });
     }, []);
 
@@ -25,7 +32,7 @@ const Hero = ({ onSearch }) => {
                 <div className="hero-text">
                     <div className="hero-badge">🔥 Pune's #1 Food Price Comparison</div>
                     <h1>Compare Prices, <span>Savor the Savings</span></h1>
-                    <p>Find the best deals on your favorite meals across Swiggy, Zomato, EatSure, Magicpin & Dunzo. Smart eating for the smart Indian household.</p>
+                    <p>Find the best deals on your favorite meals across Swiggy, Zomato, EatSure, Magicpin & Toing. Smart eating for the smart Indian household.</p>
 
                     <div className="search-box glass-card">
                         <input
