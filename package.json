@@ -4,7 +4,7 @@
   "description": "Backend for a Food Delivery Management System",
   "main": "dist/server.js",
   "scripts": {
-    "start": "node minimal_server.js",
+    "start": "node dist/server.js",
     "dev": "nodemon src/server.ts",
     "build": "tsc"
   },

@@ -11,18 +11,15 @@ const auth = async (req: Request, res: Response, next: NextFunction) => {
       
       const decoded = jwt.verify(token, process.env.JWT_SECRET!) as { id: string };
 
-      // CORRECT SEQUELIZE SYNTAX:
       const user = await User.findByPk(decoded.id, {
-        attributes: { exclude: ['password'] }
+        attributes: { exclude: ['password_hash'] }
       });
       
       if (!user) {
         return res.status(401).json({ message: 'User no longer exists' });
       }
 
-      // Change this line:
-  
-      (req as any).user = user;
+      req.user = user;
       return next(); 
     } catch (error) {
       console.error("JWT Error:", error);

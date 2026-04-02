@@ -4,7 +4,7 @@ import * as orderService from '../services/order.service';
 
 export const createOrder = async (req: Request, res: Response, next: NextFunction) => {
     try {
-        req.body.userId = (req as any).user!.id;
+        req.body.user_id = req.user!.user_id;
         const order = await orderService.createOrder(req.body);
         res.status(201).json(order);
     } catch (error) {

@@ -2,16 +2,18 @@ import React, { useState, useEffect } from 'react';
 import Hero from '../components/Hero';
 import CompareCard from '../components/CompareCard';
 import { API_BASE_URL } from '../config';
+import { useAuth } from '../context/AuthContext';
 
 const SORT_OPTIONS = [
-    { value: 'default', label: '🔀 Default' },
-    { value: 'price-low', label: '💰 Price: Low → High' },
-    { value: 'price-high', label: '💸 Price: High → Low' },
-    { value: 'discount', label: '🔥 Highest Discount' },
-    { value: 'savings', label: '💎 Most Savings' },
+    { value: 'default', label: 'Default' },
+    { value: 'price-low', label: 'Price: Low to High' },
+    { value: 'price-high', label: 'Price: High to Low' },
+    { value: 'discount', label: 'Highest Discount' },
+    { value: 'savings', label: 'Most Savings' },
 ];
 
 const Home = () => {
+    const { recordSearch, recentSearches } = useAuth();
     const [dishes, setDishes] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -23,7 +25,6 @@ const Home = () => {
     const [surpriseDish, setSurpriseDish] = useState(null);
     const ITEMS_PER_PAGE = 6;
 
-    // Fetch categories on mount
     useEffect(() => {
         fetch(`${API_BASE_URL}/api/categories`)
             .then(res => res.json())
@@ -61,17 +62,19 @@ const Home = () => {
 
     const handleSearch = (query) => {
         setActiveCategory('All');
+        setCurrentPage(1);
         fetchDishes(query);
+        recordSearch(query);
     };
 
     const handleCategoryClick = (cat) => {
         setActiveCategory(cat);
-        setCurrentPage(1); // Reset to page 1 on category change
+        setCurrentPage(1);
     };
 
     const handleSortChange = (e) => {
         setSortBy(e.target.value);
-        setCurrentPage(1); // Reset to page 1 on sort change
+        setCurrentPage(1);
     };
 
     const pickRandomDish = () => {
@@ -82,7 +85,6 @@ const Home = () => {
         }
     };
 
-    // Sort dishes
     const sortedDishes = [...dishes].sort((a, b) => {
         const bestA = Math.min(...a.platforms.map(p => p.price));
         const bestB = Math.min(...b.platforms.map(p => p.price));
@@ -102,7 +104,7 @@ const Home = () => {
 
     return (
         <>
-            <Hero onSearch={handleSearch} />
+            <Hero onSearch={handleSearch} recentSearches={recentSearches} />
 
             <main className="container">
                 <div className="section-header">
@@ -110,7 +112,6 @@ const Home = () => {
                     <p>Find the best value for your favorite dishes across 5 platforms.</p>
                 </div>
 
-                {/* ── Category Filter Tabs ── */}
                 <div className="category-tabs">
                     {categories.map(cat => (
                         <button
@@ -118,21 +119,11 @@ const Home = () => {
                             className={`category-tab ${activeCategory === cat ? 'active' : ''}`}
                             onClick={() => handleCategoryClick(cat)}
                         >
-                            {cat === 'All' ? '🍽️ All' :
-                                cat === 'Biryani' ? '🍚 Biryani' :
-                                    cat === 'North Indian' ? '🍛 North Indian' :
-                                        cat === 'Pizza' ? '🍕 Pizza' :
-                                            cat === 'Fast Food' ? '🍔 Fast Food' :
-                                                cat === 'Chinese' ? '🥡 Chinese' :
-                                                    cat === 'South Indian' ? '🫓 South Indian' :
-                                                        cat === 'Desserts' ? '🍰 Desserts' :
-                                                            cat === 'Starter' ? '🥘 Starters' :
-                                                                cat}
+                            {cat}
                         </button>
                     ))}
                 </div>
 
-                {/* ── Sort + Results Bar ── */}
                 {!loading && dishes.length > 0 && (
                     <div className="sort-bar">
                         <span className="results-count-inline">
@@ -140,7 +131,7 @@ const Home = () => {
                         </span>
 
                         <button className="btn-surprise" onClick={pickRandomDish}>
-                            🎲 Surprise Me!
+                            Surprise Me
                         </button>
 
                         <div className="sort-select-wrapper">
@@ -180,7 +171,6 @@ const Home = () => {
                             ))}
                         </div>
 
-                        {/* ── Pagination Controls ── */}
                         {sortedDishes.length > ITEMS_PER_PAGE && (
                             <div className="pagination">
                                 <button
@@ -188,7 +178,7 @@ const Home = () => {
                                     disabled={currentPage === 1}
                                     onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
                                 >
-                                    ← Prev
+                                    Prev
                                 </button>
 
                                 <span className="page-info">
@@ -200,24 +190,23 @@ const Home = () => {
                                     disabled={currentPage === Math.ceil(sortedDishes.length / ITEMS_PER_PAGE)}
                                     onClick={() => setCurrentPage(p => Math.min(Math.ceil(sortedDishes.length / ITEMS_PER_PAGE), p + 1))}
                                 >
-                                    Next →
+                                    Next
                                 </button>
                             </div>
                         )}
                     </>
                 ) : (
                     <div className="empty-state">
-                        <div style={{ fontSize: '3rem', marginBottom: '1rem' }}>🔍</div>
-                        <p>No dishes found. Try a different category or search term!</p>
+                        <div style={{ fontSize: '3rem', marginBottom: '1rem' }}>Search</div>
+                        <p>No dishes found. Try a different category or search term.</p>
                     </div>
                 )}
 
-                {/* ── Surprise Modal ── */}
                 {showSurprise && surpriseDish && (
                     <div className="modal-overlay" onClick={() => setShowSurprise(false)}>
                         <div className="modal-content glass-card" onClick={e => e.stopPropagation()}>
-                            <button className="close-modal" onClick={() => setShowSurprise(false)}>✕</button>
-                            <h2 style={{ textAlign: 'center', marginBottom: '1rem', color: 'var(--primary)' }}>🎉 We Picked For You!</h2>
+                            <button className="close-modal" onClick={() => setShowSurprise(false)}>X</button>
+                            <h2 style={{ textAlign: 'center', marginBottom: '1rem', color: 'var(--primary)' }}>We Picked For You</h2>
                             <CompareCard dish={surpriseDish} />
                         </div>
                     </div>

@@ -1,5 +1,6 @@
 import React from 'react';
 import './CompareCard.css';
+import { useAuth } from '../context/AuthContext';
 
 // Reliable platform logo URLs
 const PLATFORM_LOGOS = {
@@ -21,6 +22,7 @@ const PLATFORM_COLORS = {
 
 const CompareCard = ({ dish }) => {
     const { id, name, image, description, platforms, category } = dish;
+    const { isFavorite, toggleFavorite } = useAuth();
 
     const getFrontendImage = (dishName) => {
         const exactMap = {
@@ -204,23 +206,15 @@ const CompareCard = ({ dish }) => {
     const worstPrice = Math.max(...platforms.map(p => p.price));
     const totalSavings = worstPrice - bestPrice;
 
-    // Favorites logic
-    const [isFav, setIsFav] = React.useState(() => {
-        const favs = JSON.parse(localStorage.getItem('dishdash_favorites') || '[]');
-        return favs.includes(id);
-    });
+    const isFav = isFavorite(id);
 
-    const toggleFavorite = (e) => {
+    const handleFavoriteClick = async (e) => {
         e.stopPropagation();
-        const favs = JSON.parse(localStorage.getItem('dishdash_favorites') || '[]');
-        let newFavs;
-        if (favs.includes(id)) {
-            newFavs = favs.filter(f => f !== id);
-        } else {
-            newFavs = [...favs, id];
+        try {
+            await toggleFavorite(id);
+        } catch (error) {
+            console.error('Failed to update favorite:', error);
         }
-        localStorage.setItem('dishdash_favorites', JSON.stringify(newFavs));
-        setIsFav(!isFav);
     };
 
     return (
@@ -238,7 +232,7 @@ const CompareCard = ({ dish }) => {
                 {totalSavings > 0 && (
                     <div className="savings-badge">Save upto ₹{totalSavings}</div>
                 )}
-                <button className={`fav-btn ${isFav ? 'fav-active' : ''}`} onClick={toggleFavorite}>
+                <button className={`fav-btn ${isFav ? 'fav-active' : ''}`} onClick={handleFavoriteClick}>
                     {isFav ? '❤️' : '🤍'}
                 </button>
             </div>

@@ -2,43 +2,30 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const sequelize_1 = require("sequelize");
 const db_1 = require("../config/db");
-class User extends sequelize_1.Model {
+class SearchHistory extends sequelize_1.Model {
 }
-User.init({
-    user_id: {
+SearchHistory.init({
+    search_id: {
         type: sequelize_1.DataTypes.INTEGER,
         primaryKey: true,
         autoIncrement: true,
     },
-    name: {
+    user_id: {
+        type: sequelize_1.DataTypes.INTEGER,
+        allowNull: false,
+    },
+    search_term: {
         type: sequelize_1.DataTypes.STRING,
         allowNull: false,
     },
-    email: {
-        type: sequelize_1.DataTypes.STRING,
-        allowNull: false,
-        unique: true,
-    },
-    password_hash: {
-        type: sequelize_1.DataTypes.STRING,
-        allowNull: false,
-    },
-    address: {
-        type: sequelize_1.DataTypes.STRING,
-        allowNull: true,
-    },
-    last_login: {
-        type: sequelize_1.DataTypes.DATE,
-        allowNull: true,
-    },
-    created_at: {
+    searched_at: {
         type: sequelize_1.DataTypes.DATE,
         allowNull: false,
         defaultValue: sequelize_1.DataTypes.NOW,
     },
 }, {
     sequelize: db_1.sequelize,
-    tableName: 'users',
+    tableName: 'search_history',
     timestamps: false,
 });
-exports.default = User;
+exports.default = SearchHistory;

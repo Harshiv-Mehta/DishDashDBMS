@@ -33,7 +33,7 @@ var __importStar = (this && this.__importStar) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.updateUserProfile = exports.getUserProfile = exports.loginUser = exports.registerUser = void 0;
+exports.getSearchHistory = exports.saveSearch = exports.removeFavorite = exports.addFavorite = exports.getFavorites = exports.updateUserProfile = exports.getUserProfile = exports.loginUser = exports.registerUser = void 0;
 const userService = __importStar(require("../services/user.service"));
 const registerUser = async (req, res, next) => {
     try {
@@ -57,8 +57,7 @@ const loginUser = async (req, res, next) => {
 exports.loginUser = loginUser;
 const getUserProfile = async (req, res, next) => {
     try {
-        // Use (req as any) to bypass the missing 'user' property check
-        const user = await userService.getUserProfile(req.user.id);
+        const user = await userService.getUserProfile(req.user.user_id);
         res.json(user);
     }
     catch (error) {
@@ -68,7 +67,7 @@ const getUserProfile = async (req, res, next) => {
 exports.getUserProfile = getUserProfile;
 const updateUserProfile = async (req, res, next) => {
     try {
-        const user = await userService.updateUserProfile(req.user.id, req.body);
+        const user = await userService.updateUserProfile(req.user.user_id, req.body);
         res.json(user);
     }
     catch (error) {
@@ -76,3 +75,53 @@ const updateUserProfile = async (req, res, next) => {
     }
 };
 exports.updateUserProfile = updateUserProfile;
+const getFavorites = async (req, res, next) => {
+    try {
+        const favorites = await userService.getFavorites(req.user.user_id);
+        res.json(favorites);
+    }
+    catch (error) {
+        next(error);
+    }
+};
+exports.getFavorites = getFavorites;
+const addFavorite = async (req, res, next) => {
+    try {
+        const favorite = await userService.addFavorite(req.user.user_id, Number(req.body.productId));
+        res.status(201).json(favorite);
+    }
+    catch (error) {
+        next(error);
+    }
+};
+exports.addFavorite = addFavorite;
+const removeFavorite = async (req, res, next) => {
+    try {
+        const result = await userService.removeFavorite(req.user.user_id, Number(req.params.productId));
+        res.json(result);
+    }
+    catch (error) {
+        next(error);
+    }
+};
+exports.removeFavorite = removeFavorite;
+const saveSearch = async (req, res, next) => {
+    try {
+        const result = await userService.saveSearch(req.user.user_id, req.body.searchTerm);
+        res.status(201).json(result);
+    }
+    catch (error) {
+        next(error);
+    }
+};
+exports.saveSearch = saveSearch;
+const getSearchHistory = async (req, res, next) => {
+    try {
+        const history = await userService.getSearchHistory(req.user.user_id);
+        res.json(history);
+    }
+    catch (error) {
+        next(error);
+    }
+};
+exports.getSearchHistory = getSearchHistory;

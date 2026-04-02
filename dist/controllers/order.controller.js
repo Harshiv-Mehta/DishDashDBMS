@@ -37,7 +37,7 @@ exports.updateOrderStatus = exports.getOrderById = exports.getOrders = exports.c
 const orderService = __importStar(require("../services/order.service"));
 const createOrder = async (req, res, next) => {
     try {
-        req.body.userId = req.user.id;
+        req.body.user_id = req.user.user_id;
         const order = await orderService.createOrder(req.body);
         res.status(201).json(order);
     }

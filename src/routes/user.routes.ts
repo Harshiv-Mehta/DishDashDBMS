@@ -18,8 +18,19 @@ const loginSchema = Joi.object({
     password: Joi.string().required(),
 });
 
+const favoriteSchema = Joi.object({
+    productId: Joi.number().required(),
+});
+
+const searchSchema = Joi.object({
+    searchTerm: Joi.string().trim().min(1).required(),
+});
+
 router.post('/register', validate(registerSchema), userController.registerUser);
 router.post('/login', validate(loginSchema), userController.loginUser);
 router.route('/profile').get(auth, userController.getUserProfile).put(auth, userController.updateUserProfile);
+router.route('/favorites').get(auth, userController.getFavorites).post(auth, validate(favoriteSchema), userController.addFavorite);
+router.delete('/favorites/:productId', auth, userController.removeFavorite);
+router.route('/search-history').get(auth, userController.getSearchHistory).post(auth, validate(searchSchema), userController.saveSearch);
 
 export default router;

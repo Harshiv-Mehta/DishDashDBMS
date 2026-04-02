@@ -1,0 +1,23 @@
+services:
+  - type: web
+    name: dishdashdbms-api
+    runtime: node
+    plan: free
+    rootDir: .
+    buildCommand: npm install && npm run build
+    startCommand: npm start
+    envVars:
+      - key: NODE_VERSION
+        value: 18
+      - key: PORT
+        value: 5006
+      - key: MYSQL_HOST
+        sync: false
+      - key: MYSQL_USER
+        sync: false
+      - key: MYSQL_PASSWORD
+        sync: false
+      - key: MYSQL_DATABASE
+        sync: false
+      - key: JWT_SECRET
+        sync: false

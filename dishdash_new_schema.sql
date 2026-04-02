@@ -2,6 +2,8 @@
 
 SET FOREIGN_KEY_CHECKS = 0;
 
+DROP TABLE IF EXISTS search_history;
+DROP TABLE IF EXISTS favorites;
 DROP TABLE IF EXISTS redirection;
 DROP TABLE IF EXISTS pricecomparison;
 DROP TABLE IF EXISTS products;
@@ -15,20 +17,24 @@ SET FOREIGN_KEY_CHECKS = 1;
 -- --------------------------------------------------
 
 CREATE TABLE users (
-  user_id INT PRIMARY KEY,
-  name VARCHAR(100),
-  email VARCHAR(150)
+  user_id INT PRIMARY KEY AUTO_INCREMENT,
+  name VARCHAR(100) NOT NULL,
+  email VARCHAR(150) NOT NULL UNIQUE,
+  password_hash VARCHAR(255) NOT NULL,
+  address VARCHAR(255) NULL,
+  last_login DATETIME NULL,
+  created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
 INSERT INTO users VALUES
-(1,'Rahul Sharma','rahul@gmail.com'),
-(2,'Priya Mehta','priya@gmail.com'),
-(3,'Amit Patil','amit@gmail.com'),
-(4,'Sneha Kulkarni','sneha@gmail.com'),
-(5,'Aditya Deshmukh','aditya@gmail.com'),
-(6,'Neha Joshi','neha@gmail.com'),
-(7,'Rohan Gupta','rohan@gmail.com'),
-(8,'Kavya Iyer','kavya@gmail.com');
+(1,'Rahul Sharma','rahul@gmail.com','$2a$10$OsMoIfz2bPdE.O7yHtSVTu/sPZxVQ2CwLDTccF51yymIqMSPJHgIi','Shivajinagar, Pune',NULL,NOW()),
+(2,'Priya Mehta','priya@gmail.com','$2a$10$OsMoIfz2bPdE.O7yHtSVTu/sPZxVQ2CwLDTccF51yymIqMSPJHgIi','Kothrud, Pune',NULL,NOW()),
+(3,'Amit Patil','amit@gmail.com','$2a$10$OsMoIfz2bPdE.O7yHtSVTu/sPZxVQ2CwLDTccF51yymIqMSPJHgIi','Hadapsar, Pune',NULL,NOW()),
+(4,'Sneha Kulkarni','sneha@gmail.com','$2a$10$OsMoIfz2bPdE.O7yHtSVTu/sPZxVQ2CwLDTccF51yymIqMSPJHgIi','Aundh, Pune',NULL,NOW()),
+(5,'Aditya Deshmukh','aditya@gmail.com','$2a$10$OsMoIfz2bPdE.O7yHtSVTu/sPZxVQ2CwLDTccF51yymIqMSPJHgIi','Baner, Pune',NULL,NOW()),
+(6,'Neha Joshi','neha@gmail.com','$2a$10$OsMoIfz2bPdE.O7yHtSVTu/sPZxVQ2CwLDTccF51yymIqMSPJHgIi','Wakad, Pune',NULL,NOW()),
+(7,'Rohan Gupta','rohan@gmail.com','$2a$10$OsMoIfz2bPdE.O7yHtSVTu/sPZxVQ2CwLDTccF51yymIqMSPJHgIi','Viman Nagar, Pune',NULL,NOW()),
+(8,'Kavya Iyer','kavya@gmail.com','$2a$10$OsMoIfz2bPdE.O7yHtSVTu/sPZxVQ2CwLDTccF51yymIqMSPJHgIi','Camp, Pune',NULL,NOW());
 
 -- --------------------------------------------------
 -- PLATFORMS
@@ -964,3 +970,29 @@ INSERT INTO redirection VALUES
 (598,598,'https://www.eatsure.com/search/culture-paneer-sizzler'),
 (599,599,'https://magicpin.in/search/?q=culture+paneer+sizzler'),
 (600,600,'https://www.Toing.com/search?q=culture+paneer+sizzler');
+
+-- --------------------------------------------------
+-- FAVORITES
+-- --------------------------------------------------
+
+CREATE TABLE favorites (
+  favorite_id INT PRIMARY KEY AUTO_INCREMENT,
+  user_id INT NOT NULL,
+  product_id INT NOT NULL,
+  created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  UNIQUE KEY unique_user_product_favorite (user_id, product_id),
+  FOREIGN KEY (user_id) REFERENCES users(user_id),
+  FOREIGN KEY (product_id) REFERENCES products(product_id)
+);
+
+-- --------------------------------------------------
+-- SEARCH HISTORY
+-- --------------------------------------------------
+
+CREATE TABLE search_history (
+  search_id INT PRIMARY KEY AUTO_INCREMENT,
+  user_id INT NOT NULL,
+  search_term VARCHAR(255) NOT NULL,
+  searched_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY (user_id) REFERENCES users(user_id)
+);

@@ -11,14 +11,12 @@ const auth = async (req, res, next) => {
         try {
             token = req.headers.authorization.split(' ')[1];
             const decoded = jsonwebtoken_1.default.verify(token, process.env.JWT_SECRET);
-            // CORRECT SEQUELIZE SYNTAX:
             const user = await user_model_1.default.findByPk(decoded.id, {
-                attributes: { exclude: ['password'] }
+                attributes: { exclude: ['password_hash'] }
             });
             if (!user) {
                 return res.status(401).json({ message: 'User no longer exists' });
             }
-            // Change this line:
             req.user = user;
             return next();
         }

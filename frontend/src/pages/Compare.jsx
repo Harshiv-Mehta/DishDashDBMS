@@ -2,8 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import CompareCard from '../components/CompareCard';
 import { API_BASE_URL } from '../config';
+import { useAuth } from '../context/AuthContext';
 
 const Compare = () => {
+    const { recordSearch, recentSearches } = useAuth();
     const [searchParams, setSearchParams] = useSearchParams();
     const query = searchParams.get('q') || '';
 
@@ -44,7 +46,9 @@ const Compare = () => {
     const handleSearch = (e) => {
         e.preventDefault();
         if (searchInput.trim()) {
-            setSearchParams({ q: searchInput.trim() });
+            const term = searchInput.trim();
+            setSearchParams({ q: term });
+            recordSearch(term);
         } else {
             setSearchParams({});
         }
@@ -66,6 +70,25 @@ const Compare = () => {
                     />
                     <button type="submit" className="btn-primary" style={{ padding: '0 2rem' }}>Search</button>
                 </form>
+
+                {recentSearches.length > 0 && (
+                    <div style={{ display: 'flex', justifyContent: 'center', gap: '0.75rem', flexWrap: 'wrap' }}>
+                        {recentSearches.map(term => (
+                            <button
+                                key={term}
+                                type="button"
+                                className="glass-card"
+                                style={{ padding: '0.5rem 1rem', border: 'none', cursor: 'pointer' }}
+                                onClick={() => {
+                                    setSearchInput(term);
+                                    setSearchParams({ q: term });
+                                }}
+                            >
+                                {term}
+                            </button>
+                        ))}
+                    </div>
+                )}
             </div>
 
             {loading ? (

@@ -11,6 +11,8 @@ const order_model_1 = require("./order.model");
 const platform_model_1 = __importDefault(require("./platform.model"));
 const priceComparison_model_1 = __importDefault(require("./priceComparison.model"));
 const redirection_model_1 = __importDefault(require("./redirection.model"));
+const favorite_model_1 = __importDefault(require("./favorite.model"));
+const searchHistory_model_1 = __importDefault(require("./searchHistory.model"));
 const setupAssociations = () => {
     // Product <-> Price
     product_model_1.default.hasMany(price_model_1.default, { foreignKey: 'product_id', as: 'prices' });
@@ -27,6 +29,15 @@ const setupAssociations = () => {
     // User <-> Order
     user_model_1.default.hasMany(order_model_1.Order, { foreignKey: 'user_id' });
     order_model_1.Order.belongsTo(user_model_1.default, { foreignKey: 'user_id' });
+    // User <-> Favorite
+    user_model_1.default.hasMany(favorite_model_1.default, { foreignKey: 'user_id' });
+    favorite_model_1.default.belongsTo(user_model_1.default, { foreignKey: 'user_id' });
+    // Product <-> Favorite
+    product_model_1.default.hasMany(favorite_model_1.default, { foreignKey: 'product_id' });
+    favorite_model_1.default.belongsTo(product_model_1.default, { foreignKey: 'product_id' });
+    // User <-> SearchHistory
+    user_model_1.default.hasMany(searchHistory_model_1.default, { foreignKey: 'user_id' });
+    searchHistory_model_1.default.belongsTo(user_model_1.default, { foreignKey: 'user_id' });
     // Restaurant <-> Order
     restaurant_model_1.default.hasMany(order_model_1.Order, { foreignKey: 'restaurantId' });
     order_model_1.Order.belongsTo(restaurant_model_1.default, { foreignKey: 'restaurantId' });

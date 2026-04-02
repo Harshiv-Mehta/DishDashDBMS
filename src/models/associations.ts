@@ -8,6 +8,8 @@ import MenuItem from './menuItem.model';
 import Platform from './platform.model';
 import PriceComparison from './priceComparison.model';
 import Redirection from './redirection.model';
+import Favorite from './favorite.model';
+import SearchHistory from './searchHistory.model';
 
 const setupAssociations = () => {
   // Product <-> Price
@@ -30,6 +32,18 @@ const setupAssociations = () => {
   // User <-> Order
   User.hasMany(Order, { foreignKey: 'user_id' });
   Order.belongsTo(User, { foreignKey: 'user_id' });
+
+  // User <-> Favorite
+  User.hasMany(Favorite, { foreignKey: 'user_id' });
+  Favorite.belongsTo(User, { foreignKey: 'user_id' });
+
+  // Product <-> Favorite
+  Product.hasMany(Favorite, { foreignKey: 'product_id' });
+  Favorite.belongsTo(Product, { foreignKey: 'product_id' });
+
+  // User <-> SearchHistory
+  User.hasMany(SearchHistory, { foreignKey: 'user_id' });
+  SearchHistory.belongsTo(User, { foreignKey: 'user_id' });
 
 
   // Restaurant <-> Order

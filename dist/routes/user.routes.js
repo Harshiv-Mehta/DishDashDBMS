@@ -52,7 +52,16 @@ const loginSchema = joi_1.default.object({
     email: joi_1.default.string().email().required(),
     password: joi_1.default.string().required(),
 });
+const favoriteSchema = joi_1.default.object({
+    productId: joi_1.default.number().required(),
+});
+const searchSchema = joi_1.default.object({
+    searchTerm: joi_1.default.string().trim().min(1).required(),
+});
 router.post('/register', (0, validation_middleware_1.default)(registerSchema), userController.registerUser);
 router.post('/login', (0, validation_middleware_1.default)(loginSchema), userController.loginUser);
 router.route('/profile').get(auth_middleware_1.default, userController.getUserProfile).put(auth_middleware_1.default, userController.updateUserProfile);
+router.route('/favorites').get(auth_middleware_1.default, userController.getFavorites).post(auth_middleware_1.default, (0, validation_middleware_1.default)(favoriteSchema), userController.addFavorite);
+router.delete('/favorites/:productId', auth_middleware_1.default, userController.removeFavorite);
+router.route('/search-history').get(auth_middleware_1.default, userController.getSearchHistory).post(auth_middleware_1.default, (0, validation_middleware_1.default)(searchSchema), userController.saveSearch);
 exports.default = router;
